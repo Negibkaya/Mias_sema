@@ -74,8 +74,11 @@ Score meaning: 80-100 = excellent match, 60-79 = good, 40-59 = acceptable, below
     }
 
     headers = {
-        "Authorization": f"Bearer {settings.OPENROUTER_API_KEY}",
-        "Content-Type": "application/json",
+            "Authorization": f"Bearer {settings.OPENROUTER_API_KEY}",
+            "Content-Type": "application/json",
+            # ДОБАВЬ ЭТИ ДВЕ СТРОКИ:
+            "HTTP-Referer": "https://mias-sema.onrender.com",
+            "X-Title": "Student Project AI Service",
     }
 
     async with httpx.AsyncClient(timeout=120) as client:
