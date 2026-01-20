@@ -1,16 +1,40 @@
-# React + Vite
+# Frontend (React + Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Фронтенд часть проекта MIAS (Matching Intelligent Assistant System) - веб-приложение на React с использованием Vite для быстрой разработки.
 
-Currently, two official plugins are available:
+## Описание
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Приложение предоставляет интерфейс для управления пользователями, проектами и AI-подбором кандидатов. Включает аутентификацию через Telegram, просмотр профилей, создание и редактирование проектов, добавление участников и запуск AI-матчинга.
 
-## React Compiler
+## Основные компоненты
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Аутентификация**: Логин через Telegram бот.
+- **Пользователи**: Просмотр и редактирование профилей (навыки, био).
+- **Проекты**: Создание, просмотр, редактирование проектов с указанием требуемых навыков.
+- **AI Matching**: Запуск подбора кандидатов для проекта с использованием AI.
 
-## Expanding the ESLint configuration
+## Технологии
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- React 18
+- Vite
+- React Router
+- Axios для API запросов
+- CSS Modules
+
+## Запуск
+
+1. Установите зависимости: `npm install`
+2. Скопируйте `.env.example` в `.env` и заполните API_URL (например, http://localhost:8000)
+3. Запустите dev сервер: `npm run dev`
+4. Откройте http://localhost:5173
+
+## Сборка
+
+`npm run build`
+
+## Структура проекта
+
+- `src/api/` - API клиенты
+- `src/components/` - Переиспользуемые компоненты
+- `src/pages/` - Страницы приложения
+- `src/context/` - Контекст аутентификации
