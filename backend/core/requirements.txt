@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+SQLAlchemy
+asyncpg
+python-jose[cryptography]
+httpx
