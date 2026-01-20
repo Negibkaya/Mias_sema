@@ -1,14 +1,16 @@
 import json
 import random
-import google.generativeai as genai
 from fastapi import FastAPI
+from google import genai
+from google.genai import types
 from .settings import Settings
 
 settings = Settings()
 app = FastAPI(title="ai-service")
 
-# Настраиваем Google API один раз при запуске
-genai.configure(api_key=settings.GEMINI_API_KEY)
+# === ИНИЦИАЛИЗАЦИЯ НОВОГО КЛИЕНТА ===
+# Создаем клиент один раз. Он потокобезопасен.
+client = genai.Client(api_key=settings.GEMINI_API_KEY)
 
 @app.post("/match")
 async def match(payload: dict):
@@ -20,7 +22,7 @@ async def match(payload: dict):
     if not candidates:
         return {"results": [], "raw": "No candidates provided"}
 
-    # Промпт
+    # Промпт (оставил твой, он хороший)
     prompt = f"""You are an HR AI Assistant.
     
     PROJECT: {project.get("name")}
@@ -44,26 +46,25 @@ async def match(payload: dict):
     results = []
 
     try:
-        # Используем модель с конфигурацией JSON
-        model = genai.GenerativeModel(
-            settings.GEMINI_MODEL,
-            generation_config={"response_mime_type": "application/json"}
+        response = await client.aio.models.generate_content(
+            model=settings.GEMINI_MODEL,
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                response_mime_type="application/json",
+                temperature=0.7
+            )
         )
-
-        # Выполняем синхронный запрос (внутри FastAPI он отработает нормально в треде)
-        # Google SDK сам обрабатывает повторные попытки
-        response = model.generate_content(prompt)
         
         raw_response = response.text
         
-        # Парсим JSON (Google гарантирует JSON, но на всякий случай проверяем)
+        # Парсим JSON
         parsed = json.loads(raw_response)
         results = parsed.get("results", [])
 
     except Exception as e:
         print(f"⚠️ GEMINI ERROR: {e}")
+        
         # === FALLBACK (ЗАПАСНОЙ ВАРИАНТ) ===
-        # Если вдруг Google упадет (маловероятно), генерируем фейк
         raw_response = f"Error: {str(e)}. Using fallback."
         
         fallback_results = []
