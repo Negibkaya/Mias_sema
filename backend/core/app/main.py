@@ -18,7 +18,6 @@ app.add_middleware(
 
 @app.on_event("startup")
 async def on_startup():
-    # Инициализация таблиц
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 

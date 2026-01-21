@@ -42,7 +42,6 @@ class ProjectMember(Base):
     project_id: Mapped[int] = mapped_column(ForeignKey("projects.id", ondelete="CASCADE"))
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
 
-    # ДОБАВЛЕНО: роль участника в проекте
     role_name: Mapped[str | None] = mapped_column(String(100), nullable=True)
 
     project: Mapped["Project"] = relationship(back_populates="members")

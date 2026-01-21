@@ -8,8 +8,6 @@ from .settings import Settings
 settings = Settings()
 app = FastAPI(title="ai-service")
 
-# === ИНИЦИАЛИЗАЦИЯ НОВОГО КЛИЕНТА ===
-# Создаем клиент один раз. Он потокобезопасен.
 client = genai.Client(api_key=settings.GEMINI_API_KEY)
 
 @app.post("/match")
@@ -22,7 +20,6 @@ async def match(payload: dict):
     if not candidates:
         return {"results": [], "raw": "No candidates provided"}
 
-    # Промпт (оставил твой, он хороший)
     prompt = f"""You are an HR AI Assistant.
     
     PROJECT: {project.get("name")}
